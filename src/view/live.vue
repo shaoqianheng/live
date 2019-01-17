@@ -9,8 +9,8 @@
           </video-player>
         </div>
       </div>
-      <div class="item">
-        {{logInfo}}
+      <div class="item" v-for="item in logInfo">
+        {{item}}
       </div>
     </md-card-media>
   </md-card>
@@ -25,7 +25,7 @@
   export default {
     data() {
       return {
-        logInfo: '',
+        logInfo: ['默认值'],
         playerOptions: {
           // videojs and plugin options
           height: '360',
@@ -48,7 +48,7 @@
       playerReadied(player) {
         var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
         player.tech_.hls.xhr.beforeRequest = function(options) {
-          this.logInfo = options;
+          this.logInfo.push(options);
           return options
         }
       }
