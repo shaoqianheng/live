@@ -1,15 +1,5 @@
 <template>
   <md-card>
-    <md-card-actions>
-      <div class="md-subhead">
-        <span>HLS Live / 直播</span>
-      </div>
-      <md-button class="md-icon-button"
-                 target="_blank"
-                 href="https://github.com/surmon-china/vue-video-player/tree/master/examples/04-video.vue">
-        <md-icon>code</md-icon>
-      </md-button>
-    </md-card-actions>
     <md-card-media>
       <div class="item">
         <div class="player">
@@ -18,6 +8,9 @@
                         @ready="playerReadied">
           </video-player>
         </div>
+      </div>
+      <div class="item">
+        {{logInfo}}
       </div>
     </md-card-media>
   </md-card>
@@ -32,6 +25,7 @@
   export default {
     data() {
       return {
+        logInfo: '',
         playerOptions: {
           // videojs and plugin options
           height: '360',
@@ -54,7 +48,7 @@
       playerReadied(player) {
         var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
         player.tech_.hls.xhr.beforeRequest = function(options) {
-          console.log(options)
+          this.logInfo = options;
           return options
         }
       }
