@@ -47,7 +47,9 @@
     methods: {
       playerReadied(player) {
         var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
+        console.warn('hls的值为：', hls);
         player.tech_.hls.xhr.beforeRequest = function(options) {
+          console.info('options的值为：', options);
           this.logInfo.push(options);
           return options
         }

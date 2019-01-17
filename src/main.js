@@ -10,6 +10,10 @@ import 'video.js/dist/video-js.css'
 
 Vue.config.productionTip = false
 
+let VConsole = require('vconsole');
+
+var vConsole = new VConsole();
+
 Vue.use(VueVideoPlayer)
 /* eslint-disable no-new */
 new Vue({
