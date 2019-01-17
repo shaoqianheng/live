@@ -1,87 +1,63 @@
 <template>
-  <div>
-    <video-player  class="video-player-box"
-                   ref="videoPlayer"
-                   :options="playerOptions"
-                   :playsinline="true"
-                   :poster="poster"
-                   customEventName="customstatechangedeventname"
-
-                   @play="onPlayerPlay($event)"
-                   @pause="onPlayerPause($event)"
-                   @ended="onPlayerEnded($event)"
-                   @waiting="onPlayerWaiting($event)"
-                   @playing="onPlayerPlaying($event)"
-                   @loadeddata="onPlayerLoadeddata($event)"
-                   @timeupdate="onPlayerTimeupdate($event)"
-                   @canplay="onPlayerCanplay($event)"
-                   @canplaythrough="onPlayerCanplaythrough($event)"
-
-                   @statechanged="playerStateChanged($event)"
-                   @ready="playerReadied">
-    </video-player>
-    <div>
-      <select name="" id="">
-        <option value="">正式</option>
-        <option value="">测试</option>
-      </select>
-    </div>
-  </div>
+  <md-card>
+    <md-card-actions>
+      <div class="md-subhead">
+        <span>HLS Live / 直播</span>
+      </div>
+      <md-button class="md-icon-button"
+                 target="_blank"
+                 href="https://github.com/surmon-china/vue-video-player/tree/master/examples/04-video.vue">
+        <md-icon>code</md-icon>
+      </md-button>
+    </md-card-actions>
+    <md-card-media>
+      <div class="item">
+        <div class="player">
+          <video-player class="vjs-custom-skin"
+                        :options="playerOptions"
+                        @ready="playerReadied">
+          </video-player>
+        </div>
+      </div>
+    </md-card-media>
+  </md-card>
 </template>
 
 <script>
+  // custom skin css
+  // import '../src/custom-theme.css'
+  // videojs
+  // hls plugin for videojs6
+  // export
   export default {
     data() {
       return {
         playerOptions: {
-          // videojs options
-          muted: true,
-          language: 'en',
-          playbackRates: [0.7, 1.0, 1.5, 2.0],
+          // videojs and plugin options
+          height: '360',
           sources: [{
-            type: "video/mp4",
-            src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+            withCredentials: false,
+            type: "application/x-mpegURL",
+            src: "https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8"
           }],
-          poster: "/static/image/poster.png",
+          controlBar: {
+            timeDivider: false,
+            durationDisplay: false
+          },
+          flash: { hls: { withCredentials: false }},
+          html5: { hls: { withCredentials: false }},
+          poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg"
         }
       }
     },
-    mounted() {
-      console.log('this is current player instance object', this.player)
-    },
-    computed: {
-      player() {
-        return this.$refs.videoPlayer.player
-      }
-    },
     methods: {
-      // listen event
-      onPlayerPlay(player) {
-        // console.log('player play!', player)
-      },
-      onPlayerPause(player) {
-        // console.log('player pause!', player)
-      },
-      // ...player event
-
-      // or listen state event
-      playerStateChanged(playerCurrentState) {
-        // console.log('player current update state', playerCurrentState)
-      },
-
-      // player is ready
       playerReadied(player) {
-        console.log('the player is readied', player)
-        // you can use it to do something...
-        // player.[methods]
+        var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
+        player.tech_.hls.xhr.beforeRequest = function(options) {
+          console.log(options)
+          return options
+        }
       }
     }
   }
 </script>
-
-<style scoped>
-  video {
-    width: 100%;
-    height: 40%;
-  }
-</style>

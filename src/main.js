@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueVideoPlayer from 'vue-video-player'
+import 'videojs-contrib-hls'
 
 import 'video.js/dist/video-js.css'
 
